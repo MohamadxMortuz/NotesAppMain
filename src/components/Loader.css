@@ -47,6 +47,16 @@
   animation: loading 1.4s ease-in-out infinite;
 }
 
+.loader-content .loader-hint {
+  min-height: 3.2em;
+  max-width: 280px;
+  margin: 20px auto 0;
+  padding: 0 16px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--text-muted, #667085);
+}
+
 @keyframes loading {
   0%   { transform: translateX(-110%); }
   100% { transform: translateX(260%); }

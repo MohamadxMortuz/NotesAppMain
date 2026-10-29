@@ -23,6 +23,12 @@ function LoginPage({ setLoading }) {
     );
   }, []);
 
+  // Wake the (free-tier) backend up while the person types their details, so the
+  // login itself is quick. Failure is fine and silently ignored.
+  useEffect(() => {
+    axios.get(`${API_URL}/health`, { timeout: 70000 }).catch(() => {});
+  }, []);
+
   const switchMode = () => {
     setIsLogin(!isLogin);
     setError('');
@@ -36,10 +42,12 @@ function LoginPage({ setLoading }) {
     setLoading(true);
     try {
       const endpoint = isLogin ? '/api/auth/login' : '/api/auth/register';
-      const response = await axios.post(`${API_URL}${endpoint}`, {
-        username: username.trim(),
-        password,
-      });
+      // A timeout means the loader can never hang forever if the server doesn't answer.
+      const response = await axios.post(
+        `${API_URL}${endpoint}`,
+        { username: username.trim(), password },
+        { timeout: 70000 }
+      );
       if (response.data.token) {
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('username', response.data.username);
