@@ -1,14 +1,14 @@
-/* src/components/Loader.css */
+/* src/components/Loader.css
+   Same Loader.js, restyled to match the new look. Selectors are scoped so the
+   old global ".logo" rule no longer collides with other components. */
+
 .loader-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #ffffff;
+  background: var(--bg, #f5f6fb);
   z-index: 9999;
 }
 
@@ -16,40 +16,43 @@
   text-align: center;
 }
 
-.logo {
-  font-size: 2.5rem;
-  font-weight: bold;
-  margin-bottom: 20px;
-  color: #333;
+.loader-content .logo {
+  margin: 0 0 22px;
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--text, #1c2033);
 }
 
-.pencil-icon {
-  margin-right: 10px;
+.loader-content .pencil-icon {
+  display: inline-block;
+  margin-right: 8px;
+  animation: nudge 1.2s ease-in-out infinite;
 }
 
-.progress-bar {
+.loader-content .progress-bar {
   width: 200px;
-  height: 4px;
-  background-color: #f0f0f0;
-  border-radius: 2px;
+  height: 5px;
+  margin: 0 auto;
+  border-radius: 3px;
   overflow: hidden;
+  background: var(--surface-2, #eef0f8);
 }
 
-.progress {
-  width: 60%;
+.loader-content .progress {
+  width: 40%;
   height: 100%;
-  background-color: #333;
-  animation: loading 2s infinite;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #6c5ce7, #9b6bf2);
+  animation: loading 1.4s ease-in-out infinite;
 }
 
 @keyframes loading {
-  0% {
-    width: 0;
-  }
-  50% {
-    width: 60%;
-  }
-  100% {
-    width: 100%;
-  }
+  0%   { transform: translateX(-110%); }
+  100% { transform: translateX(260%); }
+}
+
+@keyframes nudge {
+  0%, 100% { transform: rotate(-8deg); }
+  50%      { transform: rotate(8deg) translateY(-2px); }
 }
